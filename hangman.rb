@@ -1,6 +1,8 @@
 class Hangman
   def initialize
-    @word = "bitmaker"
+#Instead of a single word, there are now multiple words, randomly selected
+    possibilities = ["coding", "ruby", "bacon", "rails"]
+    @word = possibilities[rand(0..(possibilities.length - 1))]
   end
 
   def hide_word
@@ -13,23 +15,21 @@ class Hangman
     @guess = gets.chomp
   end
 
+#Changed this method
   def check_for_matches
-    index = 0
-    @word.each_char do |letter|
-      if letter == @guess
-        @user_word[index] = letter
-      end
-      index += 1
+    if @word.include? @guess
+      @user_word[@word.index(@guess)] = @guess
     end
     puts @user_word
   end
-
+#Added congratulations
   def play
     hide_word
     while @user_word != @word
       ask_for_guess
       check_for_matches
     end
+    puts "Congratulations. You won the Internet!"
   end
 end
 
